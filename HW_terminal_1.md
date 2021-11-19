@@ -35,9 +35,41 @@ source ~/.bashrc
 логика /dir-with-many-files$ echo * | wc -c
     /dir-with-many-files$ for i in * ; do grep ARG_MAX "$i"; done
 мой expr `getconf ARG_MAX` - `env|wc -c` - `env|wc -l` \* 4 - 2048 = 2092865
-11. тестовая проверка вывода команды
-12 хз, может поясните хоть что-то ?
-
+  
+11. тестовая проверка вывода команды. Проверит существует ли дирректория /tmp, ответ 0 считается истиной
+  
+12 нашел свою ошибку, от которой порядком настрадался) 
+  
+  дело было в том, что домашний каталог был /home/vagrant , я  этого не учитывал и пытался запихать в /tmp/test
+  
+**vagrant@vagrant:~/tmp/test$** pwd
+  
+/home/vagrant/tmp/test
+  
+**vagrant@vagrant:~/tmp/test$** cp bin/bash /home/vagrant/tmp/test
+  
+cp: cannot stat 'bin/bash': No such file or directory
+  
+**vagrant@vagrant:~/tmp/test$** cp /bin/bash /home/vagrant/tmp/test
+  
+**vagrant@vagrant:~/tmp/test$** PATH=/home/vagrant/tmp/test:$PATH
+  
+**vagrant@vagrant:~/tmp/test$** type -a bash
+  
+bash is /home/vagrant/tmp/test/bash
+  
+bash is /usr/bin/bash
+  
+bash is /bin/bash
+  
+vagrant@vagrant:~/tmp/test$ cd $HOME
+  
+vagrant@vagrant:~$ pwd
+  
+/home/vagrant
+  
+  
 13.at используется для назначения одноразового задания на заданное время, а команда batch — для назначения одноразовых задач, которые должны выполняться, когда загрузка системы становится меньше 0,8.
+  
 14.vagrant halt
 
